@@ -1,6 +1,8 @@
 {
     "name": "ROS2 Development",
-    "dockerComposeFile": ["../docker-compose.yml"],
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
     "service": "ros2_dev",
     "workspaceFolder": "/ros2_ws",
     "customizations": {
@@ -14,5 +16,5 @@
             ]
         }
     },
-    "remoteUser": "root"
-} 
+    "remoteUser": "ros"
+}

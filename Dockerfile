@@ -26,18 +26,32 @@ RUN apt-get update && apt-get install -y \
     python3-colcon-common-extensions \
     && rm -rf /var/lib/apt/lists/*
 
-# Source ROS2 environment in bashrc
-RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+# Fix for rosdep issues
+RUN apt-get update && apt-get install -y \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash ros
+RUN echo "ros ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ros
+RUN chmod 0440 /etc/sudoers.d/ros
+
+# Switch to the non-root user
+USER ros
+
+# Setup rosdep
+RUN rosdep init || echo "rosdep already initialized"
+RUN rosdep update
+
+# Source ROS2 environment for the non-root user
+RUN echo "source /opt/ros/humble/setup.bash" >> /home/ros/.bashrc
 
 # Helper commands
-RUN echo "eval "$(register-python-argcomplete3 ros2)" " >> /root/.bashrc
-RUN echo "eval "$(register-python-argcomplete3 colcon)"" >> /root/.bashrc
-RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh " >> /root/.bashrc
-RUN echo "source /usr/share/colcon_cd/function/colcon_cd-argcomplete.bash" >> /root/.bashrc
-RUN echo "export _colcon_cd_root=/opt/ros/humble/" >> /root/.bashrc
-
-RUN rosdep init
-RUN rosdep update
+RUN echo "eval "$(register-python-argcomplete3 ros2)" " >> /home/ros/.bashrc
+RUN echo "eval "$(register-python-argcomplete3 colcon)"" >> /home/ros/.bashrc
+RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh " >> /home/ros/.bashrc
+RUN echo "source /usr/share/colcon_cd/function/colcon_cd-argcomplete.bash" >> /home/ros/.bashrc
+RUN echo "export _colcon_cd_root=/opt/ros/humble/" >> /home/ros/.bashrc
 
 # Keep container running
 CMD ["bash"] 
