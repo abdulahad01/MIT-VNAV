@@ -3,6 +3,6 @@
 
 int main()
 {
-    std::cout << "Hello world" ;
-    std::cout << my_lib_fn() ;
+    std::cout << "Hello world" << std::endl;
+    std::cout << my_lib_fn() << std::endl;
 }

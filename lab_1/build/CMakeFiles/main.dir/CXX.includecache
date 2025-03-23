@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/abdu/Desktop/MIT-VNAN/lab_1/main.cpp
+iostream
+-
+my_lib.h
+/home/abdu/Desktop/MIT-VNAN/lab_1/my_lib.h
+
+/home/abdu/Desktop/MIT-VNAN/lab_1/my_lib.h
+string
+-
+

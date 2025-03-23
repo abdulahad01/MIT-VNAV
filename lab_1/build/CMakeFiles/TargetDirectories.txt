@@ -1,0 +1,4 @@
+/home/abdu/Desktop/MIT-VNAN/lab_1/build/CMakeFiles/edit_cache.dir
+/home/abdu/Desktop/MIT-VNAN/lab_1/build/CMakeFiles/main.dir
+/home/abdu/Desktop/MIT-VNAN/lab_1/build/CMakeFiles/rebuild_cache.dir
+/home/abdu/Desktop/MIT-VNAN/lab_1/build/CMakeFiles/mylib.dir
