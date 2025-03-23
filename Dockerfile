@@ -9,10 +9,6 @@ RUN apt-get update && apt-get install -y \
     libeigen3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a workspace directory and set permissions
-WORKDIR /ros2_ws
-RUN mkdir -p /ros2_ws/src && \
-    chown -R ros:ros /ros2_ws
 
 # Add any additional ROS2 packages you might need
 RUN apt-get update && apt-get install -y \
@@ -38,6 +34,11 @@ RUN chmod 0440 /etc/sudoers.d/ros
 # Switch to the non-root user
 USER ros
 
+# Create a workspace directory and set permissions
+WORKDIR /ros2_ws
+RUN mkdir -p /ros2_ws/src && \
+    chown -R ros:ros /ros2_ws
+
 # Setup rosdep
 RUN rosdep init || echo "rosdep already initialized"
 RUN rosdep update
@@ -51,6 +52,9 @@ RUN echo "eval '$(register-python-argcomplete3 colcon)' " >> /home/ros/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh " >> /home/ros/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd-argcomplete.bash" >> /home/ros/.bashrc
 RUN echo "export _colcon_cd_root=/opt/ros/humble/" >> /home/ros/.bashrc
+
+RUN colcon build --symlink-install
+RUN echo "source /ros2_ws/install/setup.bash" >> /home/ros/.bashrc
 
 # Keep container running
 CMD ["bash"] 
