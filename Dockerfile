@@ -9,11 +9,10 @@ RUN apt-get update && apt-get install -y \
     libeigen3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a workspace directory
+# Create a workspace directory and set permissions
 WORKDIR /ros2_ws
-
-# Create source directory for labs
-RUN mkdir -p /ros2_ws/src
+RUN mkdir -p /ros2_ws/src && \
+    chown -R ros:ros /ros2_ws
 
 # Add any additional ROS2 packages you might need
 RUN apt-get update && apt-get install -y \
@@ -47,8 +46,8 @@ RUN rosdep update
 RUN echo "source /opt/ros/humble/setup.bash" >> /home/ros/.bashrc
 
 # Helper commands
-RUN echo "eval "$(register-python-argcomplete3 ros2)" " >> /home/ros/.bashrc
-RUN echo "eval "$(register-python-argcomplete3 colcon)"" >> /home/ros/.bashrc
+RUN echo "eval '$(register-python-argcomplete3 ros2)' " >> /home/ros/.bashrc
+RUN echo "eval '$(register-python-argcomplete3 colcon)' " >> /home/ros/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh " >> /home/ros/.bashrc
 RUN echo "source /usr/share/colcon_cd/function/colcon_cd-argcomplete.bash" >> /home/ros/.bashrc
 RUN echo "export _colcon_cd_root=/opt/ros/humble/" >> /home/ros/.bashrc
